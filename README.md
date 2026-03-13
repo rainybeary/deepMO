@@ -1,113 +1,64 @@
-# EmployeePerformanceApp (упрощённая версия)
+# EmployeePerformanceApp (Вариант 17)
 
-Простое WinForms-приложение для оценки KPI сотрудников по задачам.
+WinForms-приложение для системы оценки и анализа производительности сотрудников.
 
-## Что изменено
+## Что делает приложение
 
-Теперь приложение стало проще и удобнее:
+- Вводит данные сотрудника: ФИО, отдел.
+- Принимает оценки по 4 критериям (0–100):
+  - KPI
+  - Качество
+  - Дисциплина
+  - Инициативность
+- Считает итоговый балл по формуле варианта 17:
 
-- Ввод только:
-  - ФИО сотрудника
-  - Выполнено задач
-  - Не выполнено задач
-- KPI считается автоматически:
+`Итог = 0.4 × KPI + 0.3 × Качество + 0.2 × Дисциплина + 0.1 × Инициативность`
 
-`KPI = Выполнено / (Выполнено + Не выполнено) × 100`
+- Определяет уровень производительности:
+  - `>= 90` — Отличная
+  - `>= 75` — Хорошая
+  - `>= 60` — Удовлетворительная
+  - `< 60` — Требует улучшений
+- Отображает:
+  - таблицу с сотрудниками и их оценками
+  - средний балл
+  - лучшего сотрудника
+  - средний балл по отделам
 
-- Автоматически формируется анализ:
-  - `>= 90` — Отличный результат
-  - `>= 75` — Хороший результат
-  - `>= 60` — Средний результат
-  - `< 60` — Низкий результат, требуется внимание
+## Как запустить в Visual Studio
 
-- В статистике отображается:
-  - средний KPI по всем сотрудникам
-  - лучший сотрудник
-  - сколько сотрудников имеют KPI ниже 60%
+### 1) Установить Visual Studio
 
+Подойдёт **Visual Studio 2022** (или новее).
 
-## Как решить конфликт в PR (MainForm.cs, Model, Service, README)
+При установке выберите workload:
 
-Если GitHub показывает конфликт, как на скриншоте, проще всего решить его локально и запушить обратно в ту же ветку PR.
+- **Desktop development with .NET**
 
-### Шаги
+### 2) Открыть проект
 
-1. Переключитесь на ветку вашего PR:
+Есть два варианта:
 
-```bash
-git checkout <ВАША_ВЕТКА_PR>
-```
+1. `File` → `Open` → `Project/Solution` → выбрать файл `EmployeePerformanceApp.csproj`
+2. Или `File` → `Open` → `Folder` и выбрать папку репозитория
 
-2. Подтяните целевую ветку (обычно `main`) и выполните merge:
+### 3) Проверить .NET SDK / Target Framework
 
-```bash
-git fetch origin
-git merge origin/main
-```
+Проект настроен на `net8.0-windows`. Если Visual Studio предложит установить .NET 8 SDK — согласитесь.
 
-3. Если появятся конфликты в:
-   - `MainForm.cs`
-   - `Models/EmployeeEvaluation.cs`
-   - `Services/PerformanceCalculator.cs`
-   - `README.md`
+### 4) Запустить
 
-   оставьте **упрощённую KPI-версию** (с полями: ФИО, выполненные, невыполненные задачи),
-   удалите маркеры `<<<<<<<`, `=======`, `>>>>>>>`, затем сохраните файлы.
+- Нажмите **Start** (зелёная кнопка) или `F5` (с отладкой)
+- Либо `Ctrl + F5` (без отладки)
 
-4. Отметьте файлы как решённые и завершите merge:
+## Структура проекта
 
-```bash
-git add MainForm.cs Models/EmployeeEvaluation.cs Services/PerformanceCalculator.cs README.md
-git commit -m "Resolve merge conflicts and keep simplified KPI flow"
-```
+- `Program.cs` — точка входа приложения
+- `MainForm.cs` — интерфейс и логика формы
+- `Models/EmployeeEvaluation.cs` — модель оценки сотрудника
+- `Services/PerformanceCalculator.cs` — расчёт итогового балла и уровня эффективности
+- `EmployeePerformanceApp.csproj` — настройки WinForms-проекта
 
-5. Отправьте изменения:
+## Примечание
 
-```bash
-git push origin <ВАША_ВЕТКА_PR>
-```
-
-После push GitHub автоматически обновит PR, и кнопка Merge станет активной.
-
-### Если хотите решить конфликт одной командой (оставить свою версию)
-
-> Используйте этот вариант, только если уверены, что в вашей ветке уже правильная версия файлов.
-
-```bash
-git checkout --ours MainForm.cs Models/EmployeeEvaluation.cs Services/PerformanceCalculator.cs README.md
-git add MainForm.cs Models/EmployeeEvaluation.cs Services/PerformanceCalculator.cs README.md
-git commit -m "Resolve conflicts by keeping PR version of KPI app"
-git push origin <ВАША_ВЕТКА_PR>
-```
-
-## Как скачать проект
-
-### Вариант A: ZIP с GitHub
-
-1. Откройте страницу репозитория.
-2. Нажмите `Code` → `Download ZIP`.
-3. Распакуйте архив в папку, например `C:\Projects\deepMO`.
-
-### Вариант B: через Git
-
-```bash
-git clone <URL_РЕПОЗИТОРИЯ>
-cd deepMO
-```
-
-## Как открыть и запустить в Visual Studio
-
-1. Установите **Visual Studio 2022+**.
-2. При установке выберите workload: **Desktop development with .NET**.
-3. Откройте проект:
-   - `File` → `Open` → `Project/Solution` → `EmployeePerformanceApp.csproj`
-4. Запустите:
-   - `F5` (с отладкой) или `Ctrl+F5` (без отладки)
-
-## Файлы проекта
-
-- `Program.cs` — запуск приложения
-- `MainForm.cs` — форма и логика UI
-- `Models/EmployeeEvaluation.cs` — модель данных сотрудника
-- `Services/PerformanceCalculator.cs` — расчёт KPI и текстового анализа
-- `EmployeePerformanceApp.csproj` — настройки WinForms
+В Linux-контейнере сборка WinForms обычно недоступна (Windows-only desktop target), поэтому проверять запуск лучше именно в Visual Studio на Windows.
