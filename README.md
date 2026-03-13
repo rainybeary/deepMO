@@ -25,6 +25,61 @@
   - лучший сотрудник
   - сколько сотрудников имеют KPI ниже 60%
 
+
+## Как решить конфликт в PR (MainForm.cs, Model, Service, README)
+
+Если GitHub показывает конфликт, как на скриншоте, проще всего решить его локально и запушить обратно в ту же ветку PR.
+
+### Шаги
+
+1. Переключитесь на ветку вашего PR:
+
+```bash
+git checkout <ВАША_ВЕТКА_PR>
+```
+
+2. Подтяните целевую ветку (обычно `main`) и выполните merge:
+
+```bash
+git fetch origin
+git merge origin/main
+```
+
+3. Если появятся конфликты в:
+   - `MainForm.cs`
+   - `Models/EmployeeEvaluation.cs`
+   - `Services/PerformanceCalculator.cs`
+   - `README.md`
+
+   оставьте **упрощённую KPI-версию** (с полями: ФИО, выполненные, невыполненные задачи),
+   удалите маркеры `<<<<<<<`, `=======`, `>>>>>>>`, затем сохраните файлы.
+
+4. Отметьте файлы как решённые и завершите merge:
+
+```bash
+git add MainForm.cs Models/EmployeeEvaluation.cs Services/PerformanceCalculator.cs README.md
+git commit -m "Resolve merge conflicts and keep simplified KPI flow"
+```
+
+5. Отправьте изменения:
+
+```bash
+git push origin <ВАША_ВЕТКА_PR>
+```
+
+После push GitHub автоматически обновит PR, и кнопка Merge станет активной.
+
+### Если хотите решить конфликт одной командой (оставить свою версию)
+
+> Используйте этот вариант, только если уверены, что в вашей ветке уже правильная версия файлов.
+
+```bash
+git checkout --ours MainForm.cs Models/EmployeeEvaluation.cs Services/PerformanceCalculator.cs README.md
+git add MainForm.cs Models/EmployeeEvaluation.cs Services/PerformanceCalculator.cs README.md
+git commit -m "Resolve conflicts by keeping PR version of KPI app"
+git push origin <ВАША_ВЕТКА_PR>
+```
+
 ## Как скачать проект
 
 ### Вариант A: ZIP с GitHub
